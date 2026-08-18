@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata: #metadata del servicio, aquí se define el nombre del servicio
+  name: postgres14 #Nombre del servicio(hostname), este se usará para acceder al servicio desde otros pods y acceso a bd en properties
+spec: #especificación del servicio, aquí se definen los puertos y el selector
+  ports:
+  - port: 5432 #Puerto del servicio, este es el puerto que se usará para acceder al servicio desde otros pods
+    protocol: TCP #Protocolo de comunicación, en este caso TCP
+    targetPort: 5432 #Puerto del contenedor, este es el puerto al que se enviará el tráfico del servicio
+  selector: #este selector permite que el servicio sepa a qué pods debe enviar el tráfico
+    role: postgres #Mismo nombre del label del deployment esto permite que el servicio sepa a qué pods debe enviar el tráfico
+  type: ClusterIP
+
+
+
+ # - Para las conexiones como en properties de cursos hacia la bd postgres, se utiliza el hostname del service no del deployment
+ # - Los Pods se comunican usando el metadata.name del Service como hostname; el Service encuentra los Pods mediante sus labels y selector.
+

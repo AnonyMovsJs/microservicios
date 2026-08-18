@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres14 #Nombre del deployment(hostname), se usará para identificar el deployment y poder hacer los gets.
+spec:
+  replicas: 1
+  selector:
+    matchLabels: #Selector para identificar los pods que pertenecen a este deployment
+      role: postgres
+  template:
+    metadata: #Metadata del pod, aquí se definen los labels del pod
+      labels:
+        role: postgres #Mismo nombre del label del servicio esto permite que el servicio sepa a qué pods debe enviar el tráfico
+    spec:
+      containers:
+      - name: postgres14
+        image: postgres:14-alpine
+        ports:
+          - containerPort: 5432
+        env:
+          - name: POSTGRES_PASSWORD
+            value: root
+          - name: POSTGRES_DB
+            value: msvc-cursos
